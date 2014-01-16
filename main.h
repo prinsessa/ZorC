@@ -4,8 +4,8 @@
 // Game Version
 enum version{
 	maj = 0,
-	min = 1,
-	bld = 2
+	min = 2,
+	bld = 1
 };
 
 // direction used for rooms, player and objects
@@ -19,14 +19,6 @@ enum direction{
 enum visible{
 	visible = 0,
 	hidden = 1
-};
-
-// command struct with fp callback
-struct command{
-	char name[21];
-	// 0 shown, 1 hidden.
-	int hidden;
-	void (*fp)(struct game*);
 };
 
 struct object{
@@ -80,12 +72,20 @@ struct game {
 	struct room *rms;
 };
 
+// command struct with fp callback
+struct command{
+	char name[21];
+	// 0 shown, 1 hidden.
+	int hidden;
+	void (*fp)(void *);
+};
+
 // exercise is healthy... exit is isRunning = 0;
 int isRunning = 1;
 
 // inits/destructs TODO: sort this mess into inits>destructs>gets
 void initCommands(struct game *);
-struct command getCommand(const char[21], int);
+struct command getCommand(const char[21], int, void *);
 struct game* initGame(void);
 void destroyGame(struct game *);
 struct room* initRoom(const char [21],const char [21]);
@@ -93,6 +93,8 @@ void connectRoom(struct room *,int, struct door *, struct room *);
 struct player* initPlayer(const char [21]);
 
 // promptypromptypromptprompts
+void promptCommand(struct game *);
+struct command* parseCommand(struct game *, const char[16]);
 int promptYesNoQuestion(const char [128], const char [64], const char [128], const char [128]);
 
 //prints
@@ -100,10 +102,12 @@ void printVersion(void);
 void printZorc(const struct game *);
 void printRoom(const struct game *);
 void printCommands(const struct game *);
-void printMe(void);
+void printCommandDummy(void *);
+void printMe(void *);
 
 //oh no, fail, explosion, fire...lots and lots of fire
 void errAbort(char *);
+void exitMe(struct game *);
 
 // helpers
 char * toLowerCase(char *, int);

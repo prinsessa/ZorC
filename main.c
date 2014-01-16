@@ -15,6 +15,10 @@ int main(int argc, char *argv[])
 	promptYesNoQuestion("Will it be day by night?", "yes", "Hah! a spark of intelligence!", "Hah! you're only good for wielding a sword!");
 	initCommands(g);
 	printCommands(g);
+	while(isRunning)
+	{
+		promptCommand(g);
+	}
 	destroyGame(g);
     return 0;
 }
@@ -24,25 +28,26 @@ void initCommands(struct game *game)
 	int size = 11;
 	game->cmds = malloc(sizeof(struct command)*size);
 	game->cmdsize = size;
-	game->cmds[0] = getCommand("help", visible);
-	game->cmds[1] = getCommand("look", visible);
-	game->cmds[2] = getCommand("open", visible);
-	game->cmds[3] = getCommand("show", visible);
-	game->cmds[4] = getCommand("exit", visible);
-	game->cmds[5] = getCommand("unlock", visible);
-	game->cmds[6] = getCommand("hit", visible);
-	game->cmds[7] = getCommand("equip", visible);
-	game->cmds[8] = getCommand("unequip", visible);
-	game->cmds[9] = getCommand("whoprogrammedme", hidden);
-	game->cmds[10] = getCommand("whowroteme", hidden);
+	game->cmds[0] = getCommand("help", visible, &printCommands);
+	game->cmds[1] = getCommand("look", visible, &printCommandDummy);
+	game->cmds[2] = getCommand("open", visible, &printCommandDummy);
+	game->cmds[3] = getCommand("show", visible, &printCommandDummy);
+	game->cmds[4] = getCommand("exit", visible, &exitMe);
+	game->cmds[5] = getCommand("unlock", visible, &printCommandDummy);
+	game->cmds[6] = getCommand("hit", visible, &printCommandDummy);
+	game->cmds[7] = getCommand("equip", visible, &printCommandDummy);
+	game->cmds[8] = getCommand("unequip", visible, &printCommandDummy);
+	game->cmds[9] = getCommand("whoprogrammedme", hidden, &printMe);
+	game->cmds[10] = getCommand("whowroteme", hidden, &printMe);
 }
 
-struct command getCommand(const char name[21], int hidden)
+struct command getCommand(const char name[21], int hidden, void *fp)
 {
 	struct command *command;
 	command = malloc(sizeof(struct command));
 	strcpy(command->name, name);
 	command->hidden = hidden;
+	command->fp = fp;
 	return *command;
 }
 
@@ -98,6 +103,37 @@ struct player* initPlayer(const char n[21])
 	return zorc;
 }
 
+void promptCommand(struct game *game)
+{
+	char command[16];
+	scanf("%s", command);
+	struct command *c = parseCommand(game, command);
+	if(c != NULL)
+	{
+		c->fp(game);
+	}
+	else
+	{
+		printf("I don't know what %s is!\n", command);
+	}
+}
+
+struct command* parseCommand(struct game *game, const char com[16])
+{
+	char *cmd = malloc(sizeof com);
+	strcpy(cmd, com);
+	struct command *ret = NULL;
+	cmd = toLowerCase(cmd, sizeof com);
+	for(int i = 0; i < game->cmdsize; i++)
+	{
+		if(strcmp(cmd, game->cmds[i].name) == 0)
+		{
+			ret = &game->cmds[i];
+		}
+	}
+	return ret;
+}
+
 // Prompt question with yes or no return 
 // TODO: add one for expected output: int prompt("When's a day the most dark?", "monday at night");
 int promptYesNoQuestion(const char question[128], const char exp[64], const char succ[128], const char fail[128])
@@ -148,7 +184,12 @@ void printCommands(const struct game *game)
 	printf("\n\n");
 }
 
-void printMe(void)
+void printCommandDummy(void *p)
+{
+	printf("Command Dummy!\n");
+}
+
+void printMe(void *p)
 {
 	printf("Winter's cry comes as a song. Woken by a blade in the dark.\n");
 }
@@ -156,6 +197,13 @@ void printMe(void)
 void errAbort(char *err)
 {
 	printf(err);
+	exit(0);
+}
+
+void exitMe(struct game *game)
+{
+	destroyGame(game);
+	isRunning = 0;
 	exit(0);
 }
 
