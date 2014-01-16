@@ -9,20 +9,21 @@
 void initCommands(struct game *game)
 {
 	int size = 12;
+	int x = 0;
 	game->cmds = malloc(sizeof(struct command)*size);
 	game->cmdsize = size;
-	game->cmds[0] = getCommand("help", visible, &printCommands);
-	game->cmds[1] = getCommand("look", visible, &printCommandDummy);
-	game->cmds[2] = getCommand("open", visible, &printCommandDummy);
-	game->cmds[3] = getCommand("show", visible, &printCommandDummy);
-	game->cmds[4] = getCommand("exit", visible, &exitMe);
-	game->cmds[5] = getCommand("unlock", visible, &printCommandDummy);
-	game->cmds[6] = getCommand("hit", visible, &printCommandDummy);
-	game->cmds[7] = getCommand("equip", visible, &printCommandDummy);
-	game->cmds[8] = getCommand("unequip", visible, &printCommandDummy);
-	game->cmds[9] = getCommand("whoprogrammedme", hidden, &printMe);
-	game->cmds[10] = getCommand("whowroteme", hidden, &printMe);
-	game->cmds[11] = getCommand("attack", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("help", visible, &printCommands);
+	game->cmds[x++] = getCommand("look", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("open", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("show", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("exit", visible, &exitMe);
+	game->cmds[x++] = getCommand("unlock", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("hit", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("equip", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("unequip", visible, &printCommandDummy);
+	game->cmds[x++] = getCommand("whoprogrammedme", hidden, &printMe);
+	game->cmds[x++] = getCommand("whowroteme", hidden, &printMe);
+	game->cmds[x++] = getCommand("attack", visible, &printCommandDummy);
 }
 
 struct command getCommand(const char name[21], int hidden, void *fp)
