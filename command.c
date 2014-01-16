@@ -40,7 +40,7 @@ void promptCommand(struct game *game)
 {
 	char command[16];
 	scanf("%s", command);
-	struct command *c = parseCommand(game, command);
+	struct command *c = parseCommand(game, command, sizeof(command)/sizeof(*command));
 	if(c != NULL)
 	{
 		c->fp(game);
@@ -51,10 +51,10 @@ void promptCommand(struct game *game)
 	}
 }
 
-struct command* parseCommand(struct game *game, char *com)
+struct command* parseCommand(struct game *game, char *com, int size)
 {
 	struct command *ret = NULL;
-	com = toLowerCase(com, sizeof com);
+	com = toLowerCase(com, size);
 	for(int i = 0; i < game->cmdsize; i++)
 	{
 		if(strcmp(com, game->cmds[i].name) == 0)

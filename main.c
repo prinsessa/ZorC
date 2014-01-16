@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
 	printVersion();
-	promptYesNoQuestion("Will it be day by night?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
+	promptYesNoQuestion("Will it be day by night?", "winter", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
 	printCommands(g);
 	while(isRunning)
@@ -86,7 +86,7 @@ int promptYesNoQuestion(const char question[128], const char exp[64], const char
 	printf("Q: %s\nA: ",question);
 	// WARNING: fixed buffer for input.
 	scanf("%11s",answer);
-	char *t = toLowerCase(answer, sizeof answer);
+	char *t = toLowerCase(answer, sizeof(answer)/sizeof(*answer));
 	if(strcmp(t,exp) == 0)
 	{
 		printf("%s\n",succ);
