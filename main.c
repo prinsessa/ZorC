@@ -26,25 +26,6 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void initCommands(struct game *game)
-{
-	int size = 12;
-	game->cmds = malloc(sizeof(struct command)*size);
-	game->cmdsize = size;
-	game->cmds[0] = getCommand("help", visible, &printCommands);
-	game->cmds[1] = getCommand("look", visible, &printCommandDummy);
-	game->cmds[2] = getCommand("open", visible, &printCommandDummy);
-	game->cmds[3] = getCommand("show", visible, &printCommandDummy);
-	game->cmds[4] = getCommand("exit", visible, &exitMe);
-	game->cmds[5] = getCommand("unlock", visible, &printCommandDummy);
-	game->cmds[6] = getCommand("hit", visible, &printCommandDummy);
-	game->cmds[7] = getCommand("equip", visible, &printCommandDummy);
-	game->cmds[8] = getCommand("unequip", visible, &printCommandDummy);
-	game->cmds[9] = getCommand("whoprogrammedme", hidden, &printMe);
-	game->cmds[10] = getCommand("whowroteme", hidden, &printMe);
-	game->cmds[11] = getCommand("attack", visible, &printCommandDummy);
-}
-
 struct game* initGame(void)
 {
 	struct game *game = malloc(sizeof(struct game));
@@ -113,7 +94,6 @@ int promptYesNoQuestion(const char question[128], const char exp[64], const char
 		return 1;
 	}
 	printf("%s\n",fail);
-	free(t);
 	return 0;
 }
 
@@ -145,17 +125,8 @@ void errAbort(char *err)
 	exit(0);
 }
 
-void exitMe(struct game *game)
+char * toLowerCase(char *lowerCase, int size)
 {
-	destroyGame(game);
-	isRunning = 0;
-	exit(0);
-}
-
-char * toLowerCase(char *upper, int size)
-{
-	char *lowerCase = malloc(size);
-	strcpy(lowerCase, upper);
 	for(int i = 0; i < size; i++)
 	{
 		lowerCase[i] = tolower(lowerCase[i]);

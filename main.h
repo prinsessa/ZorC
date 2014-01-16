@@ -5,7 +5,7 @@
 enum version{
 	maj = 0,
 	min = 2,
-	bld = 2
+	bld = 3
 };
 
 // direction used for rooms, player and objects
@@ -72,6 +72,14 @@ struct game {
 	struct room *rms;
 };
 
+// command struct with fp callback
+struct command{
+	char name[21];
+	// 0 shown, 1 hidden.
+	int hidden;
+	void (*fp)(void *);
+};
+
 // exercise is healthy... exit is isRunning = 0;
 extern int isRunning;
 
@@ -92,7 +100,6 @@ void printRoom(const struct game *);
 void printMe(void *);
 
 //oh no, fail, explosion, fire...lots and lots of fire
-void errAbort(char *);
 void exitMe(struct game *);
 
 // helpers
