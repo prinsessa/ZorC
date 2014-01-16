@@ -5,7 +5,7 @@
 enum version{
 	maj = 0,
 	min = 2,
-	bld = 3
+	bld = 5
 };
 
 // direction used for rooms, player and objects
@@ -34,7 +34,6 @@ struct door{
 	int code;
 	char name[21];
 	int isLocked;
-	int direction;
 	struct room *nxt;
 };
 
@@ -88,7 +87,9 @@ struct game* initGame(void);
 void destroyGame(struct game *);
 struct room* initRoom(const char [21],const char [21]);
 void connectRoom(struct room *,int, struct door *, struct room *);
+void connectRooms(struct room *,int, struct door *, struct room *, struct door *);
 struct player* initPlayer(const char [21]);
+struct door* initDoor(const char [21], int, int, int);
 
 // promptypromptypromptprompts
 int promptYesNoQuestion(const char [128], const char [64], const char [128], const char [128]);

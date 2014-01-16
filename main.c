@@ -39,6 +39,7 @@ struct game* initGame(void)
 void destroyGame(struct game *game)
 {
 	printf("-> Free\n");
+	// TODO: doors are leaky at the moment, clear up doors on removal of rooms game->rms
 	free(game->cmds);
 	free(game->zorc->rm);
 	free(game->zorc);
@@ -67,6 +68,23 @@ void connectRoom(struct room *rma, int dira, struct door *dr, struct room *rmb)
 	rma->trans[dira] = dr;
 }
 
+void connectRooms(struct room *rma, int dira, struct door *dra, struct room *rmb, struct door *drb)
+{
+	int dirb = dira+2;
+	if(dirb>4)
+	{
+		dirb-=4;
+	} 
+	if(dirb<0)
+	{
+		dirb+=4;
+	}
+	rma->trans[dira] = dra;
+	dra->nxt = rmb;
+	rmb->trans[dirb] = drb;
+	drb->nxt = rma;
+}
+
 struct player* initPlayer(const char n[21])
 {
 	struct player *zorc = malloc(sizeof(struct player));
@@ -76,6 +94,20 @@ struct player* initPlayer(const char n[21])
 	}
 	strcpy(zorc->name, n);
 	return zorc;
+}
+
+struct door* initDoor(const char name[21], int id, int isLocked, int code)
+{
+	struct door *door = malloc(sizeof(struct door));
+	if(door == NULL)
+	{
+		errAbort("ERROR!");
+	}
+	strcpy(door->name, name);
+	door->code = code;
+	door->isLocked = isLocked;
+	door->id = id;
+	return door;
 }
 
 // Prompt question with yes or no return 
