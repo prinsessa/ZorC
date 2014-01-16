@@ -4,6 +4,9 @@
 #include <stdlib.h>
 
 #include "main.h"
+#include "command.h"
+
+int isRunning = 1;
 
 // My first "real" C app, hence God class..
 int main(int argc, char *argv[])
@@ -12,7 +15,7 @@ int main(int argc, char *argv[])
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
 	printVersion();
-	promptYesNoQuestion("Will it be day by night?", "yes", "Hah! a spark of intelligence!", "Hah! you're only good for wielding a sword!");
+	promptYesNoQuestion("Will it be day by night?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
 	printCommands(g);
 	while(isRunning)
@@ -25,7 +28,7 @@ int main(int argc, char *argv[])
 
 void initCommands(struct game *game)
 {
-	int size = 11;
+	int size = 12;
 	game->cmds = malloc(sizeof(struct command)*size);
 	game->cmdsize = size;
 	game->cmds[0] = getCommand("help", visible, &printCommands);
@@ -39,16 +42,7 @@ void initCommands(struct game *game)
 	game->cmds[8] = getCommand("unequip", visible, &printCommandDummy);
 	game->cmds[9] = getCommand("whoprogrammedme", hidden, &printMe);
 	game->cmds[10] = getCommand("whowroteme", hidden, &printMe);
-}
-
-struct command getCommand(const char name[21], int hidden, void *fp)
-{
-	struct command *command;
-	command = malloc(sizeof(struct command));
-	strcpy(command->name, name);
-	command->hidden = hidden;
-	command->fp = fp;
-	return *command;
+	game->cmds[11] = getCommand("attack", visible, &printCommandDummy);
 }
 
 struct game* initGame(void)
@@ -103,37 +97,6 @@ struct player* initPlayer(const char n[21])
 	return zorc;
 }
 
-void promptCommand(struct game *game)
-{
-	char command[16];
-	scanf("%s", command);
-	struct command *c = parseCommand(game, command);
-	if(c != NULL)
-	{
-		c->fp(game);
-	}
-	else
-	{
-		printf("I don't know what %s is!\n", command);
-	}
-}
-
-struct command* parseCommand(struct game *game, const char com[16])
-{
-	char *cmd = malloc(sizeof com);
-	strcpy(cmd, com);
-	struct command *ret = NULL;
-	cmd = toLowerCase(cmd, sizeof com);
-	for(int i = 0; i < game->cmdsize; i++)
-	{
-		if(strcmp(cmd, game->cmds[i].name) == 0)
-		{
-			ret = &game->cmds[i];
-		}
-	}
-	return ret;
-}
-
 // Prompt question with yes or no return 
 // TODO: add one for expected output: int prompt("When's a day the most dark?", "monday at night");
 int promptYesNoQuestion(const char question[128], const char exp[64], const char succ[128], const char fail[128])
@@ -169,24 +132,6 @@ void printRoom(const struct game *g)
 {
 	struct room *rm = g->zorc->rm;
 	printf("I'm in a %s %s.\n", rm->env,rm->name);
-}
-
-void printCommands(const struct game *game)
-{
-	printf("\n** The following commands are available to me **\n\n");
-	for(int i = 0; i < game->cmdsize; i++)
-	{
-		if(!game->cmds[i].hidden)
-		{
-			printf("> %s\n",game->cmds[i].name);
-		}
-	}
-	printf("\n\n");
-}
-
-void printCommandDummy(void *p)
-{
-	printf("Command Dummy!\n");
 }
 
 void printMe(void *p)
