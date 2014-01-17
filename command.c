@@ -28,19 +28,18 @@ void initCommands(struct game *game)
 
 struct command getCommand(const char name[21], int hidden, void *fp)
 {
-	struct command *command;
-	command = malloc(sizeof(struct command));
-	strcpy(command->name, name);
-	command->hidden = hidden;
-	command->fp = fp;
-	return *command;
+	struct command command;
+	strcpy(command.name, name);
+	command.hidden = hidden;
+	command.fp = fp;
+	return command;
 }
 
 void promptCommand(struct game *game)
 {
 	char command[16];
 	scanf("%s", command);
-	struct command *c = parseCommand(game, command, sizeof(command)/sizeof(*command));
+	struct command *c = parseCommand(game, command, sizeof command/sizeof *command);
 	if(c != NULL)
 	{
 		c->fp(game);
