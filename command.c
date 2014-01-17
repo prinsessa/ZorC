@@ -38,7 +38,9 @@ struct command getCommand(const char name[21], int hidden, void *fp)
 void promptCommand(struct game *game)
 {
 	char command[16];
-	scanf("%s", command);
+	scanf("%15s", command);
+	char cc;
+	while((cc=getchar()) != '\n');
 	struct command *c = parseCommand(game, command, sizeof command/sizeof *command);
 	if(c != NULL)
 	{
