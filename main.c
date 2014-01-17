@@ -116,11 +116,11 @@ int promptYesNoQuestion(const char question[128], const char exp[64], const char
 {
 	char answer[12];
 	printf("Q: %s\nA: ",question);
-	// WARNING: fixed buffer for input.
 	scanf("%11s",answer);
+	// cc: free the buffer
 	char cc;
 	while((cc=getchar()) != '\n');
-	char *t = toLowerCase(answer, sizeof(answer)/sizeof(*answer));
+	char *t = toLowerCase(answer, sizeof answer/sizeof *answer);
 	if(strcmp(t,exp) == 0)
 	{
 		printf("%s\n",succ);
