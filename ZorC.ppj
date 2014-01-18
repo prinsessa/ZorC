@@ -31,7 +31,8 @@ ZorC.exe: \
 	output\command.obj \
 	output\main.obj \
 	output\room.obj \
-	output\player.obj
+	output\player.obj \
+	output\map.obj
 	$(LINK) $(LINKFLAGS) -out:"$@" $**
 
 # 
@@ -70,6 +71,13 @@ output\player.obj: \
 	player.c \
 	command.h \
 	player.h
+	$(CC) $(CCFLAGS) "$!" -Fo"$@"
+
+# 
+# Build map.obj.
+# 
+output\map.obj: \
+	map.c
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
 .EXCLUDEDFILES:

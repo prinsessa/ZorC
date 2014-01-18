@@ -5,7 +5,7 @@
 enum version{
 	maj = 0,
 	min = 2,
-	bld = 5
+	bld = 9
 };
 
 // direction used for rooms, player and objects
