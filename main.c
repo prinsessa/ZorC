@@ -7,6 +7,7 @@
 #include "main.h"
 #include "command.h"
 #include "player.h"
+#include "version.h"
 
 int isRunning = 1;
 
@@ -82,11 +83,6 @@ int promptYesNoQuestion(const char question[128], const char exp[64], const char
 	}
 	printf("%s\n",fail);
 	return 0;
-}
-
-void printVersion(void)
-{
-	printf("ZorC version: %d.%d.%d\n\n",maj, min, bld);
 }
 
 void printZorc(const struct game *g)

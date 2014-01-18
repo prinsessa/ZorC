@@ -1,13 +1,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-// Game Version
-enum version{
-	maj = 0,
-	min = 2,
-	bld = 9
-};
-
 // direction used for rooms, player and objects
 enum direction{
 	north,
@@ -49,7 +42,6 @@ struct door* initDoor(const char [21], int, int, int);
 int promptYesNoQuestion(const char [128], const char [64], const char [128], const char [128]);
 
 //prints
-void printVersion(void);
 void printZorc(const struct game *);
 void printRoom(const struct game *);
 void printMe(void *);
