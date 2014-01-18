@@ -52,8 +52,7 @@ int promptYesNoQuestion(const char question[128], const char exp[64], const char
 	printf("Q: %s (yes/no)\nA: ",question);
 	scanf("%11s",answer);
 	// cc: free the buffer
-	char cc;
-	while((cc=getchar()) != '\n');
+	while(getchar() != '\n');
 	char *t = toLowerCase(answer, sizeof answer/sizeof *answer);
 	if(strcmp(t,exp) == 0)
 	{

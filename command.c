@@ -40,8 +40,7 @@ void promptCommand(struct game *game)
 {
 	char command[16];
 	scanf("%15s", command);
-	char cc;
-	while((cc=getchar()) != '\n');
+	while(getchar() != '\n');
 	struct command *c = parseCommand(game, command, sizeof command/sizeof *command);
 	if(c != NULL)
 	{

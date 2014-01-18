@@ -33,9 +33,10 @@ ZorC.exe: \
 	output\map.obj \
 	output\player.obj \
 	output\room.obj \
+	output\util.obj \
 	output\version.obj \
 	output\zorc.obj \
-	output\util.obj
+	output\npc.obj
 	$(LINK) $(LINKFLAGS) -out:"$@" $**
 
 # 
@@ -116,6 +117,13 @@ output\util.obj: \
 	util.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
-.SILENT:
+# 
+# Build npc.obj.
+# 
+output\npc.obj: \
+	npc.c
+	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
 .EXCLUDEDFILES:
+
+.SILENT:
