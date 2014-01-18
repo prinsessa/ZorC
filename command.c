@@ -8,14 +8,6 @@
 #include "command.h"
 #include "util.h"
 
-// command struct with fp callback
-struct command{
-	char name[21];
-	// 0 shown, 1 hidden.
-	int hidden;
-	void (*fp)(void *);
-};
-
 void initCommands(struct game *game)
 {
 	int size = 12;

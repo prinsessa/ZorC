@@ -94,6 +94,7 @@ output\map.obj: \
 # 
 output\version.obj: \
 	version.c \
+	"..\..\..\..\..\Program Files\PellesC\Include\stdio.h" \
 	version.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 

@@ -49,7 +49,7 @@ struct door* initDoor(const char name[21], int id, int isLocked, int code)
 int promptYesNoQuestion(const char question[128], const char exp[64], const char succ[128], const char fail[128])
 {
 	char answer[12];
-	printf("Q: %s\nA: ",question);
+	printf("Q: %s (yes/no)\nA: ",question);
 	scanf("%11s",answer);
 	// cc: free the buffer
 	char cc;
@@ -58,7 +58,6 @@ int promptYesNoQuestion(const char question[128], const char exp[64], const char
 	if(strcmp(t,exp) == 0)
 	{
 		printf("%s\n",succ);
-		free(t);
 		return 1;
 	}
 	printf("%s\n",fail);

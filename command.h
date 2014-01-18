@@ -1,6 +1,14 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+// command struct with fp callback
+struct command{
+	char name[21];
+	// 0 shown, 1 hidden.
+	int hidden;
+	void (*fp)(void *);
+};
+
 void initCommands(struct game *);
 struct command getCommand(const char[21], int, void *);
 

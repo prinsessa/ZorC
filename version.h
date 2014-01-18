@@ -2,7 +2,7 @@
 enum version{
 	maj = 0,
 	min = 2,
-	bld = 9
+	bld = 11
 };
 
 void printVersion(void);
