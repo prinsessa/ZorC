@@ -34,7 +34,4 @@ int promptYesNoQuestion(const char [128], const char [64], const char [128], con
 void printZorc(const struct game *);
 void printRoom(const struct game *);
 void printMe(void *);
-
-// helpers
-char * toLowerCase(char *, int);
 #endif

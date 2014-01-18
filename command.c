@@ -6,6 +6,7 @@
 #include "main.h"
 #include "zorc.h"
 #include "command.h"
+#include "util.h"
 
 // command struct with fp callback
 struct command{

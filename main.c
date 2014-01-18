@@ -9,7 +9,7 @@
 #include "command.h"
 #include "player.h"
 #include "version.h"
-
+#include "util.h"
 int isRunning = 1;
 
 // My first "real" C app, hence God class..
@@ -86,13 +86,4 @@ void errAbort(char *err)
 {
 	printf(err);
 	exit(0);
-}
-
-char * toLowerCase(char *lowerCase, int size)
-{
-	for(int i = 0; i < size; i++)
-	{
-		lowerCase[i] = tolower(lowerCase[i]);
-	}
-	return lowerCase;
 }
