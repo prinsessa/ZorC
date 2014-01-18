@@ -9,6 +9,7 @@ struct npc{
 	// struct speechtree *st;
 };
 
-
+struct npc initNpc(char [16], int);
+struct obj getObjFromNpc(struct npc *, char [16]);
 
 #endif

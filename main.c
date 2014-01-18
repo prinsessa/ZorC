@@ -10,6 +10,7 @@
 #include "player.h"
 #include "version.h"
 #include "util.h"
+#include "cui.h"
 int isRunning = 1;
 
 // My first "real" C app, hence God class..
@@ -42,25 +43,6 @@ struct door* initDoor(const char name[21], int id, int isLocked, int code)
 	door->isLocked = isLocked;
 	door->id = id;
 	return door;
-}
-
-// Prompt question with yes or no return 
-// TODO: add one for expected output: int prompt("When's a day the most dark?", "monday at night");
-int promptYesNoQuestion(const char question[128], const char exp[64], const char succ[128], const char fail[128])
-{
-	char answer[12];
-	printf("Q: %s (yes/no)\nA: ",question);
-	scanf("%11s",answer);
-	// cc: free the buffer
-	while(getchar() != '\n');
-	char *t = toLowerCase(answer, sizeof answer/sizeof *answer);
-	if(strcmp(t,exp) == 0)
-	{
-		printf("%s\n",succ);
-		return 1;
-	}
-	printf("%s\n",fail);
-	return 0;
 }
 
 void printZorc(const struct game *g)
