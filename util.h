@@ -3,5 +3,6 @@
 
 // helpers
 char * toLowerCase(char *, int);
+char * toUpperCase(char *, int);
 
 #endif
