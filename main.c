@@ -3,8 +3,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "room.h"
 #include "main.h"
 #include "command.h"
+#include "player.h"
 
 int isRunning = 1;
 
@@ -45,55 +47,6 @@ void destroyGame(struct game *game)
 	free(game->zorc);
 	free(game);
 	printf("-> End\n");
-}
-
-// build the rooms and return spawn.
-struct room* initRoom(const char name[21],const char env[21])
-{
-	// init our test setup only
-	struct room *spawn = malloc(sizeof(struct room));
-	if(spawn == NULL)
-	{
-		errAbort("ERROR!");
-	}
-	spawn->id = 0;
-	strcpy(spawn->env, env);
-	strcpy(spawn->name, name);
-	return spawn;
-}
-
-void connectRoom(struct room *rma, int dira, struct door *dr, struct room *rmb)
-{
-	dr->nxt = rmb;
-	rma->trans[dira] = dr;
-}
-
-void connectRooms(struct room *rma, int dira, struct door *dra, struct room *rmb, struct door *drb)
-{
-	int dirb = dira+2;
-	if(dirb>4)
-	{
-		dirb-=4;
-	} 
-	if(dirb<0)
-	{
-		dirb+=4;
-	}
-	rma->trans[dira] = dra;
-	dra->nxt = rmb;
-	rmb->trans[dirb] = drb;
-	drb->nxt = rma;
-}
-
-struct player* initPlayer(const char n[21])
-{
-	struct player *zorc = malloc(sizeof(struct player));
-	if(zorc == NULL)
-	{
-		errAbort("ERROR!");
-	}
-	strcpy(zorc->name, n);
-	return zorc;
 }
 
 struct door* initDoor(const char name[21], int id, int isLocked, int code)
