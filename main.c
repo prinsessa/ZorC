@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "zorc.h"
 #include "room.h"
 #include "main.h"
 #include "command.h"
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
 	printVersion();
-	promptYesNoQuestion("Will it be day by night?", "winter", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
+	promptYesNoQuestion("When will it be night by day?", "winter", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
 	printCommands(g);
 	while(isRunning)
@@ -27,27 +28,6 @@ int main(int argc, char *argv[])
 	}
 	destroyGame(g);
     return 0;
-}
-
-struct game* initGame(void)
-{
-	struct game *game = malloc(sizeof(struct game));
-	if(game == NULL)
-	{
-		errAbort("ERROR!");
-	}
-	return game;
-}
-
-void destroyGame(struct game *game)
-{
-	printf("-> Free\n");
-	// TODO: doors are leaky at the moment, clear up doors on removal of rooms game->rms
-	free(game->cmds);
-	free(game->zorc->rm);
-	free(game->zorc);
-	free(game);
-	printf("-> End\n");
 }
 
 struct door* initDoor(const char name[21], int id, int isLocked, int code)

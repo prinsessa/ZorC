@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "main.h"
+#include "zorc.h"
 #include "command.h"
 
 // command struct with fp callback

@@ -33,7 +33,8 @@ ZorC.exe: \
 	output\map.obj \
 	output\player.obj \
 	output\room.obj \
-	output\version.obj
+	output\version.obj \
+	output\zorc.obj
 	$(LINK) $(LINKFLAGS) -out:"$@" $**
 
 # 
@@ -45,7 +46,8 @@ output\main.obj: \
 	main.h \
 	player.h \
 	room.h \
-	version.h
+	version.h \
+	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
 # 
@@ -54,7 +56,8 @@ output\main.obj: \
 output\command.obj: \
 	command.c \
 	command.h \
-	main.h
+	main.h \
+	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
 # 
@@ -89,6 +92,16 @@ output\map.obj: \
 output\version.obj: \
 	version.c \
 	version.h
+	$(CC) $(CCFLAGS) "$!" -Fo"$@"
+
+# 
+# Build zorc.obj.
+# 
+output\zorc.obj: \
+	zorc.c \
+	command.h \
+	player.h \
+	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
 .SILENT:

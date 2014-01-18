@@ -11,4 +11,7 @@ struct command* parseCommand(struct game *, char *, int);
 void printCommands(const struct game *);
 void errAbort(char *);
 void printCommandDummy(void *);
+
+//oh no, fail, explosion, fire...lots and lots of fire
+void exitMe(struct game *);
 #endif
