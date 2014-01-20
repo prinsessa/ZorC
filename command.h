@@ -6,7 +6,7 @@ struct command{
 	char name[21];
 	// 0 shown, 1 hidden.
 	int hidden;
-	void (*fp)(void *);
+	void (*fp)(void *, char **, int);
 };
 
 void initCommands(struct game *);
@@ -18,7 +18,7 @@ struct command* parseCommand(struct game *, char *, int);
 char * getArg(char *);
 
 void printCommands(const struct game *);
-void printCommandDummy(void *);
+void printCommandDummy(void *, char **, int);
 void printCommandDummyArg(void *);
 
 //oh no, fail, explosion, fire...lots and lots of fire
