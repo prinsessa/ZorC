@@ -53,7 +53,7 @@ void promptCommand(struct game *game)
 	for(;;)
 	{
 		// dangerous realloc in case of NULL pointer, should use a new
-		// pointer, then assign that pointer to args once it passes and if on NULL.
+		// pointer, then assign that pointer to args once it passes and if not NULL.
 		args = realloc(args, sizeof (*args) * (arg));
 		subarg = strtok(NULL, " \t");
 
@@ -79,7 +79,6 @@ void promptCommand(struct game *game)
 	free(args);
 }
 
-// TODO: consider strtok
 struct command* parseCommand(struct game *game, char *com, int size)
 {
 	struct command *ret = NULL;
@@ -118,13 +117,6 @@ void errAbort(char *err)
 {
 	printf(err);
 	exit(0);
-}
-
-char * getArg(char * arg)
-{
-	scanf("%15s", arg);
-	while(getchar() != '\n');
-	return arg;
 }
 
 void printCommandDummy(void *p, char **args, int arg)
