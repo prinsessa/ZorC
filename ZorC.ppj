@@ -29,15 +29,15 @@ WizCreator = Pelle Orinius#
 # 
 ZorC.exe: \
 	output\command.obj \
+	output\cui.obj \
 	output\main.obj \
 	output\map.obj \
+	output\npc.obj \
 	output\player.obj \
 	output\room.obj \
 	output\util.obj \
 	output\version.obj \
-	output\zorc.obj \
-	output\npc.obj \
-	output\cui.obj
+	output\zorc.obj
 	$(LINK) $(LINKFLAGS) -out:"$@" $**
 
 # 
@@ -62,6 +62,7 @@ output\command.obj: \
 	command.c \
 	command.h \
 	main.h \
+	player.h \
 	util.h \
 	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
@@ -136,6 +137,6 @@ output\cui.obj: \
 	util.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
-.EXCLUDEDFILES:
-
 .SILENT:
+
+.EXCLUDEDFILES:

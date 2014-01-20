@@ -13,14 +13,13 @@
 #include "cui.h"
 int isRunning = 1;
 
-// My first "real" C app, hence God class..
 int main(int argc, char *argv[])
 {
 	struct game *g = initGame();
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
 	printVersion();
-	promptYesNoQuestion("When will it be night by day?", "winter", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
+	promptYesNoQuestion("When will it be night by day?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
 	printCommands(g);
 	while(isRunning)
@@ -60,10 +59,4 @@ void printRoom(const struct game *g)
 void printMe(void *p)
 {
 	printf("Winter's cry comes as a song. Woken by a blade in the dark.\n");
-}
-
-void errAbort(char *err)
-{
-	printf(err);
-	exit(0);
 }
