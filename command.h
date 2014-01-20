@@ -25,4 +25,5 @@ void printCommandDummyArg(void *);
 void exitMe(struct game *);
 void errAbort(char *);
 
+void commandTurnMe(void *, char **, int);
 #endif

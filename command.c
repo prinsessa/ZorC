@@ -11,7 +11,7 @@
 
 void initCommands(struct game *game)
 {
-	int size = 12;
+	int size = 13;
 	game->cmds = malloc(sizeof(struct command)*size);
 	game->cmdsize = size;
 	game->cmds[0] = getCommand("help", visible, &printCommands);
@@ -26,6 +26,7 @@ void initCommands(struct game *game)
 	game->cmds[9] = getCommand("whoprogrammedme", hidden, &printMe);
 	game->cmds[10] = getCommand("whowroteme", hidden, &printMe);
 	game->cmds[11] = getCommand("attack", visible, &printCommandDummy);
+	game->cmds[12] = getCommand("turn", visible, &commandTurnMe);
 }
 
 struct command getCommand(const char name[21], int hidden, void *fp)
@@ -54,10 +55,13 @@ void promptCommand(struct game *game)
 		// pointer, then assign that pointer to args once it passes and if on NULL.
 		args = realloc(args, sizeof (*args) * (arg));
 		subarg = strtok(NULL, " \t");
+
 		
 		if(!subarg)
 			break;
-		args[arg++] = subarg;
+		// remove trail and to lowercase
+		subarg[strcspn(subarg, "\n")] = '\0';
+		args[arg++] = toLowerCase(subarg, sizeof subarg/ sizeof *subarg);
 	}
 	// remove trailing newline which fgets leaves in..
 	cmd[strcspn(cmd, "\n")] = '\0';
@@ -128,5 +132,41 @@ void printCommandDummy(void *p, char **args, int arg)
 	for(int i = 0; i < arg; i++)
 	{
 		printf("> %s\n", args[i]);
+	}
+}
+
+// What a mess ...
+void commandTurnMe(void *p, char **args, int arg)
+{
+	struct game *game = (struct game *)p;
+	if(arg == 0)
+	{
+		printf("Ehh..turn to...what?\n");
+		return;
+	}
+	
+	if(strcmp(args[0], "north") == 0)
+	{
+		printf("OK, im looking to the north.\n");
+		game->zorc->direction = north;
+	}
+	else if(strcmp(args[0], "east") == 0)
+	{
+		printf("OK, im looking to the east.\n");
+		game->zorc->direction = east;
+	}
+	else if(strcmp(args[0], "south") == 0)
+	{
+		printf("OK, im looking to the south.\n");
+		game->zorc->direction = south;
+	}
+	else if(strcmp(args[0], "west") == 0)
+	{
+		printf("OK, im looking to the west.\n");
+		game->zorc->direction = west;
+	}
+	else
+	{
+		printf("Since when is %s considered to be a direction?\n", args[0]);
 	}
 }
