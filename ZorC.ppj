@@ -63,6 +63,7 @@ output\command.obj: \
 	command.h \
 	main.h \
 	player.h \
+	room.h \
 	util.h \
 	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
@@ -137,6 +138,6 @@ output\cui.obj: \
 	util.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
-.SILENT:
-
 .EXCLUDEDFILES:
+
+.SILENT:

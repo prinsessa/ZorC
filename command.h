@@ -26,4 +26,5 @@ void exitMe(struct game *);
 void errAbort(char *);
 
 void commandTurnMe(void *, char **, int);
+void commandOpenDoor(void *, char **, int);
 #endif

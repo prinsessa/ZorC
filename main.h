@@ -24,10 +24,9 @@ struct object{
 // exercise is healthy... exit is isRunning = 0;
 extern int isRunning;
 
-struct door* initDoor(const char [32], int, int, int);
-
 //prints
 void printZorc(const struct game *);
 void printRoom(const struct game *);
+void printDoors(const struct room *);
 void printMe(void *);
 #endif

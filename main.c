@@ -18,30 +18,18 @@ int main(int argc, char *argv[])
 	struct game *g = initGame();
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
+	connectRoom(g->zorc->rm, north, initDoor("door",0,0,0), initRoom("hall", "bloody"));
 	printVersion();
 	promptYesNoQuestion("When will it be night by day?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
 	printCommands(g);
+	printRoom(g);
 	while(isRunning)
 	{
 		promptCommand(g);
 	}
 	destroyGame(g);
     return 0;
-}
-
-struct door* initDoor(const char name[21], int id, int isLocked, int code)
-{
-	struct door *door = malloc(sizeof(struct door));
-	if(door == NULL)
-	{
-		errAbort("ERROR!");
-	}
-	strcpy(door->name, name);
-	door->code = code;
-	door->isLocked = isLocked;
-	door->id = id;
-	return door;
 }
 
 void printZorc(const struct game *g)
@@ -54,6 +42,18 @@ void printRoom(const struct game *g)
 {
 	struct room *rm = g->zorc->rm;
 	printf("I'm in a %s %s.\n", rm->env,rm->name);
+	printDoors(rm);
+}
+
+void printDoors(const struct room *room)
+{
+	for(int i = 0; i < 4; i++)
+	{
+		if(room->trans[i] != NULL)
+		{
+			printf("There's a %s to the &direction&.\n", room->trans[i]->name);
+		}
+	}
 }
 
 void printMe(void *p)

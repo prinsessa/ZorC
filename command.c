@@ -3,10 +3,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "main.h"
 #include "zorc.h"
+#include "main.h"
 #include "player.h"
 #include "command.h"
+#include "room.h"
 #include "util.h"
 
 void initCommands(struct game *game)
@@ -16,7 +17,7 @@ void initCommands(struct game *game)
 	game->cmdsize = size;
 	game->cmds[0] = getCommand("help", visible, &printCommands);
 	game->cmds[1] = getCommand("look", visible, &printCommandDummy);
-	game->cmds[2] = getCommand("open", visible, &printCommandDummy);
+	game->cmds[2] = getCommand("open", visible, &commandOpenDoor);
 	game->cmds[3] = getCommand("show", visible, &printCommandDummy);
 	game->cmds[4] = getCommand("exit", visible, &exitMe);
 	game->cmds[5] = getCommand("unlock", visible, &printCommandDummy);
@@ -169,4 +170,33 @@ void commandTurnMe(void *p, char **args, int arg)
 	{
 		printf("Since when is %s considered to be a direction?\n", args[0]);
 	}
+}
+
+void commandOpenDoor(void *p, char **args, int arg)
+{
+	struct game *game = (struct game *)p;
+	if(arg == 0)
+	{
+		printf("Ehh...what door should I open exactly?\n");
+		return;
+	}
+
+	for(int i = 0; i < 4; i++)
+	{
+		if(game->zorc->rm->trans[i] != NULL)
+		{
+			if(strcmp(args[0], game->zorc->rm->trans[i]->name) == 0)
+			{
+				if(game->zorc->rm->trans[i]->isLocked)
+				{
+					printf("The door seems to be locked!\n");
+					return;
+				}
+				game->zorc->rm = game->zorc->rm->trans[i]->nxt;
+				printRoom(game);
+				return;
+			}
+		}
+	}
+	printf("Ehh...is %s even a door?\n", args[0]);
 }

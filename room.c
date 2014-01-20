@@ -43,3 +43,17 @@ void connectRooms(struct room *rma, int dira, struct door *dra, struct room *rmb
 	rmb->trans[dirb] = drb;
 	drb->nxt = rma;
 }
+
+struct door* initDoor(const char name[21], int id, int isLocked, int code)
+{
+	struct door *door = malloc(sizeof(struct door));
+	if(door == NULL)
+	{
+		errAbort("ERROR!");
+	}
+	strcpy(door->name, name);
+	door->code = code;
+	door->isLocked = isLocked;
+	door->id = id;
+	return door;
+}
