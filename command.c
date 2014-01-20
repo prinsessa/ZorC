@@ -175,28 +175,26 @@ void commandTurnMe(void *p, char **args, int arg)
 void commandOpenDoor(void *p, char **args, int arg)
 {
 	struct game *game = (struct game *)p;
+	int direction = game->zorc->direction;
 	if(arg == 0)
 	{
 		printf("Ehh...what door should I open exactly?\n");
 		return;
 	}
 
-	for(int i = 0; i < 4; i++)
-	{
-		if(game->zorc->rm->trans[i] != NULL)
+		if(game->zorc->rm->trans[direction] != NULL)
 		{
-			if(strcmp(args[0], game->zorc->rm->trans[i]->name) == 0)
+			if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
 			{
-				if(game->zorc->rm->trans[i]->isLocked)
+				if(game->zorc->rm->trans[direction]->isLocked)
 				{
 					printf("The door seems to be locked!\n");
 					return;
 				}
-				game->zorc->rm = game->zorc->rm->trans[i]->nxt;
+				game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
 				printRoom(game);
 				return;
 			}
 		}
-	}
-	printf("Ehh...is %s even a door?\n", args[0]);
+	printf("Ehh...is there even a door in that direction?\n");
 }

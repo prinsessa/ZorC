@@ -1,6 +1,10 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#define NORTH "north"
+#define EAST "east"
+#define SOUTH "south"
+#define WEST "west"
 // direction used for rooms, player and objects
 enum direction{
 	north,
@@ -23,6 +27,8 @@ struct object{
 
 // exercise is healthy... exit is isRunning = 0;
 extern int isRunning;
+
+char * getDirection(int);
 
 //prints
 void printZorc(const struct game *);

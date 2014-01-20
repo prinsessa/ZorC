@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	struct game *g = initGame();
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
-	connectRoom(g->zorc->rm, north, initDoor("door",0,0,0), initRoom("hall", "bloody"));
+	connectRooms(g->zorc->rm, north, initDoor("door",0,0,0), initRoom("hall", "bloody"), initDoor("door", 0,0,0));
 	printVersion();
 	promptYesNoQuestion("When will it be night by day?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
@@ -30,6 +30,22 @@ int main(int argc, char *argv[])
 	}
 	destroyGame(g);
     return 0;
+}
+
+char * getDirection(int direction)
+{
+	switch(direction)
+	{
+		case (north):
+			return NORTH;
+		case (south):
+			return SOUTH;
+		case (east):
+			return EAST;
+		case (west):
+			return WEST;
+	}
+	return NORTH;
 }
 
 void printZorc(const struct game *g)
@@ -51,7 +67,7 @@ void printDoors(const struct room *room)
 	{
 		if(room->trans[i] != NULL)
 		{
-			printf("There's a %s to the &direction&.\n", room->trans[i]->name);
+			printf("There's a %s to the %s.\n", room->trans[i]->name, getDirection(i));
 		}
 	}
 }
