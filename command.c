@@ -20,7 +20,7 @@ void initCommands(struct game *game)
 	game->cmds[2] = getCommand("open", visible, &commandOpenDoor);
 	game->cmds[3] = getCommand("show", visible, &printCommandDummy);
 	game->cmds[4] = getCommand("exit", visible, &exitMe);
-	game->cmds[5] = getCommand("unlock", visible, &printCommandDummy);
+	game->cmds[5] = getCommand("unlock", visible, &commandUnlockDoor);
 	game->cmds[6] = getCommand("hit", visible, &printCommandDummy);
 	game->cmds[7] = getCommand("equip", visible, &printCommandDummy);
 	game->cmds[8] = getCommand("unequip", visible, &printCommandDummy);
@@ -174,19 +174,63 @@ void commandOpenDoor(void *p, char **args, int arg)
 		return;
 	}
 
-		if(game->zorc->rm->trans[direction] != NULL)
+	if(game->zorc->rm->trans[direction] != NULL)
+	{
+		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
 		{
-			if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
+			if(game->zorc->rm->trans[direction]->isLocked)
 			{
-				if(game->zorc->rm->trans[direction]->isLocked)
+				printf("The door seems to be locked!\n");
+				return;
+			}
+			game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
+			printRoom(game);
+			return;
+		}
+	}
+	printf("Ehh...is there even a door in that direction?\n");
+}
+
+void commandUnlockDoor(void *p, char **args, int arg)
+{
+	struct game *game = (struct game *)p;
+	int direction = game->zorc->direction;
+	int hasKey = 0;
+	if(arg == 0)
+	{
+		printf("Ehh...what door should I unlock exactly?\n");
+		return;
+	}
+
+	if(game->zorc->rm->trans[direction] != NULL)
+	{
+		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
+		{
+			if(game->zorc->rm->trans[direction]->isLocked)
+			{
+				for(int i = 0 ; i < game->zorc->keysize; i++)
 				{
-					printf("The door seems to be locked!\n");
-					return;
-				}
-				game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
-				printRoom(game);
+					if(game->zorc->keys[i] !=NULL)
+					{
+						if(game->zorc->keys[i]->code == game->zorc->rm->trans[direction]->code)
+						{
+							hasKey = 1;
+							printf("Door unlocked!\n");
+							return;
+						}
+					}
+				}	
+			} 
+			else
+			{
+				printf("This door doesnt seem to be locked!\n");
 				return;
 			}
 		}
-	printf("Ehh...is there even a door in that direction?\n");
+	}
+	else
+	{
+		printf("Ehh...is there even a door in that direction?\n");
+		return;
+	}
 }
