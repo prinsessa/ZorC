@@ -83,7 +83,9 @@ output\room.obj: \
 output\player.obj: \
 	player.c \
 	command.h \
-	player.h
+	main.h \
+	player.h \
+	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
 # 
@@ -138,6 +140,6 @@ output\cui.obj: \
 	util.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
-.EXCLUDEDFILES:
-
 .SILENT:
+
+.EXCLUDEDFILES:

@@ -12,7 +12,7 @@
 
 void initCommands(struct game *game)
 {
-	int size = 13;
+	int size = 14;
 	game->cmds = malloc(sizeof(struct command)*size);
 	game->cmdsize = size;
 	game->cmds[0] = getCommand("help", visible, &printCommands);
@@ -28,6 +28,7 @@ void initCommands(struct game *game)
 	game->cmds[10] = getCommand("whowroteme", hidden, &printMe);
 	game->cmds[11] = getCommand("attack", visible, &printCommandDummy);
 	game->cmds[12] = getCommand("turn", visible, &commandTurnMe);
+	game->cmds[13] = getCommand("go", visible, &commandGoDirection);
 }
 
 struct command getCommand(const char name[21], int hidden, void *fp)
@@ -59,7 +60,9 @@ void promptCommand(struct game *game)
 
 		
 		if(!subarg)
+		{
 			break;
+		}
 		// remove trail and to lowercase
 		subarg[strcspn(subarg, "\n")] = '\0';
 		args[arg++] = toLowerCase(subarg, sizeof subarg/ sizeof *subarg);
@@ -70,6 +73,8 @@ void promptCommand(struct game *game)
 	if(c != NULL)
 	{
 		c->fp(game, args, arg);
+		//
+		printf("\n");
 	}
 	else
 	{
@@ -103,7 +108,7 @@ void printCommands(const struct game *game)
 			printf("> %s\n",game->cmds[i].name);
 		}
 	}
-	printf("\n\n");
+	printf("\n");
 }
 
 void exitMe(struct game *game)
@@ -137,31 +142,7 @@ void commandTurnMe(void *p, char **args, int arg)
 		printf("Ehh..turn to...what?\n");
 		return;
 	}
-	
-	if(strcmp(args[0], "north") == 0)
-	{
-		printf("OK, im looking to the north.\n");
-		game->zorc->direction = north;
-	}
-	else if(strcmp(args[0], "east") == 0)
-	{
-		printf("OK, im looking to the east.\n");
-		game->zorc->direction = east;
-	}
-	else if(strcmp(args[0], "south") == 0)
-	{
-		printf("OK, im looking to the south.\n");
-		game->zorc->direction = south;
-	}
-	else if(strcmp(args[0], "west") == 0)
-	{
-		printf("OK, im looking to the west.\n");
-		game->zorc->direction = west;
-	}
-	else
-	{
-		printf("Since when is %s considered to be a direction?\n", args[0]);
-	}
+	setPlayerDirection(game, args, arg);
 }
 
 void commandOpenDoor(void *p, char **args, int arg)
@@ -176,17 +157,14 @@ void commandOpenDoor(void *p, char **args, int arg)
 
 	if(game->zorc->rm->trans[direction] != NULL)
 	{
-		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
+		if(game->zorc->rm->trans[direction]->isLocked)
 		{
-			if(game->zorc->rm->trans[direction]->isLocked)
-			{
-				printf("The door seems to be locked!\n");
-				return;
-			}
-			game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
-			printRoom(game);
+			printf("This door seems to be locked!\n");
 			return;
 		}
+		game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
+		printRoom(game);
+		return;
 	}
 	printf("Ehh...is there even a door in that direction?\n");
 }
@@ -195,7 +173,7 @@ void commandUnlockDoor(void *p, char **args, int arg)
 {
 	struct game *game = (struct game *)p;
 	int direction = game->zorc->direction;
-	int hasKey = 0;
+
 	if(arg == 0)
 	{
 		printf("Ehh...what door should I unlock exactly?\n");
@@ -204,28 +182,24 @@ void commandUnlockDoor(void *p, char **args, int arg)
 
 	if(game->zorc->rm->trans[direction] != NULL)
 	{
-		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
+		if(game->zorc->rm->trans[direction]->isLocked)
 		{
-			if(game->zorc->rm->trans[direction]->isLocked)
+			for(int i = 0 ; i < game->zorc->keysize; i++)
 			{
-				for(int i = 0 ; i < game->zorc->keysize; i++)
+				if(&game->zorc->keys[i] != NULL)
 				{
-					if(game->zorc->keys[i] !=NULL)
+					if(game->zorc->keys[i].code == game->zorc->rm->trans[direction]->code)
 					{
-						if(game->zorc->keys[i]->code == game->zorc->rm->trans[direction]->code)
-						{
-							hasKey = 1;
-							printf("Door unlocked!\n");
-							return;
-						}
+						printf("Door unlocked!\n");
+						return;
 					}
-				}	
-			} 
-			else
-			{
-				printf("This door doesnt seem to be locked!\n");
-				return;
-			}
+				}
+			}	
+		} 
+		else
+		{
+			printf("This door doesn't seem to be locked!\n");
+			return;
 		}
 	}
 	else
@@ -233,4 +207,11 @@ void commandUnlockDoor(void *p, char **args, int arg)
 		printf("Ehh...is there even a door in that direction?\n");
 		return;
 	}
+}
+
+void commandGoDirection(void *p, char **args, int arg)
+{
+	struct game *game = (struct game *)p;
+	setPlayerDirection(game, args, arg);
+	commandOpenDoor(game, args, arg);
 }
