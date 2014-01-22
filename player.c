@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "command.h"
+#include "room.h"
 #include "main.h"
 #include "zorc.h"
 #include "player.h"
@@ -17,6 +18,29 @@ struct player* initPlayer(const char n[21])
 	}
 	strcpy(zorc->name, n);
 	return zorc;
+}
+
+void addToInventory(void *p, char **args, int arg)
+{
+	struct game *game = (struct game *)p;
+	if(arg == 0)
+	{
+		printf("Ehh..What object should I add to my inventory?\n");
+		return;
+	}
+
+	for(int i = 0; i < game->zorc->rm->objsize; i++)
+	{
+		if(&game->zorc->rm->objs[i] != NULL)
+		{
+			if(strcmp(args[0], game->zorc->rm->objs[i].name) == 0)
+			{
+				// realloc and add
+				printf("** TODO: Implementations ** %s has been added to my inventory.\n", game->zorc->rm->objs[i].name);
+				return;
+			}
+		}
+	}
 }
 
 void setPlayerDirection(struct game *game, char **args, int arg)

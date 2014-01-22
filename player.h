@@ -6,8 +6,11 @@ struct player{
 	int direction;
 	struct key *keys;
 	int keysize;
+	struct object *inv;
+	int invsize;
 };
 
 struct player* initPlayer(const char [21]);
+void addToInventory(void *, char **, int);
 void setPlayerDirection(struct game *, char **, int);
 #endif

@@ -227,3 +227,14 @@ void commandGoDirection(void *p, char **args, int arg)
 	commandOpenDoor(p, over, 1);
 	free(over);
 }
+
+void commandLookAt(void *p, char args**, int arg)
+{
+	struct game *game = (struct game *)p;
+
+	if(arg == 0)
+	{
+		printf("Ehh..I don't know what to look at!");
+		return;
+	}
+}

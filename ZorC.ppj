@@ -85,6 +85,7 @@ output\player.obj: \
 	command.h \
 	main.h \
 	player.h \
+	room.h \
 	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 

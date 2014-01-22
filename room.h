@@ -25,8 +25,8 @@ struct room{
 	// door, ints enum direction
 	struct door *trans[4];
 	// dynamic array of objects
-	// struct object *objs;
-	// int objsize;
+	struct object *objs;
+	int objsize;
 };
 
 struct room* initRoom(const char [21],const char [21]);

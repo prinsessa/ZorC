@@ -27,4 +27,5 @@ void commandTurnMe(void *, char **, int);
 void commandOpenDoor(void *, char **, int);
 void commandUnlockDoor(void *, char **, int);
 void commandGoDirection(void *, char **, int);
+void commandLookAt(void *, char **, int);
 #endif
