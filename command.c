@@ -157,14 +157,22 @@ void commandOpenDoor(void *p, char **args, int arg)
 
 	if(game->zorc->rm->trans[direction] != NULL)
 	{
-		if(game->zorc->rm->trans[direction]->isLocked)
+		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
 		{
-			printf("This door seems to be locked!\n");
+			if(game->zorc->rm->trans[direction]->isLocked)
+			{
+				printf("The door seems to be locked!\n");
+				return;
+			}
+			game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
+			printRoom(game);
 			return;
 		}
-		game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
-		printRoom(game);
-		return;
+		else
+		{
+			printf("I don't know how to open %s!\n", args[0]);
+			return;
+		}
 	}
 	printf("Ehh...is there even a door in that direction?\n");
 }
@@ -182,23 +190,31 @@ void commandUnlockDoor(void *p, char **args, int arg)
 
 	if(game->zorc->rm->trans[direction] != NULL)
 	{
-		if(game->zorc->rm->trans[direction]->isLocked)
+		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
 		{
-			for(int i = 0 ; i < game->zorc->keysize; i++)
+			if(game->zorc->rm->trans[direction]->isLocked)
 			{
-				if(&game->zorc->keys[i] != NULL)
+				for(int i = 0 ; i < game->zorc->keysize; i++)
 				{
-					if(game->zorc->keys[i].code == game->zorc->rm->trans[direction]->code)
+					if(&game->zorc->keys[i] != NULL)
 					{
-						printf("Door unlocked!\n");
-						return;
+						if(game->zorc->keys[i].code == game->zorc->rm->trans[direction]->code)
+						{
+							printf("Door unlocked!\n");
+							return;
+						}
 					}
-				}
-			}	
-		} 
+				}	
+			} 
+			else
+			{
+				printf("This door doesn't seem to be locked!\n");
+				return;
+			}
+		}
 		else
 		{
-			printf("This door doesn't seem to be locked!\n");
+			printf("I don't know how to open %s!\n", args[0]);
 			return;
 		}
 	}
@@ -212,6 +228,9 @@ void commandUnlockDoor(void *p, char **args, int arg)
 void commandGoDirection(void *p, char **args, int arg)
 {
 	struct game *game = (struct game *)p;
+	char **over = malloc(sizeof *over);
+	over[0] = "door";
 	setPlayerDirection(game, args, arg);
-	commandOpenDoor(game, args, arg);
+	commandOpenDoor(p, over, 1);
+	free(over);
 }
