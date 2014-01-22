@@ -133,7 +133,6 @@ void printCommandDummy(void *p, char **args, int arg)
 	}
 }
 
-// What a mess ...
 void commandTurnMe(void *p, char **args, int arg)
 {
 	struct game *game = (struct game *)p;
@@ -154,74 +153,68 @@ void commandOpenDoor(void *p, char **args, int arg)
 		printf("Ehh...what door should I open exactly?\n");
 		return;
 	}
-
-	if(game->zorc->rm->trans[direction] != NULL)
+	if(game->zorc->rm->trans[direction] == NULL)
 	{
-		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
-		{
-			if(game->zorc->rm->trans[direction]->isLocked)
-			{
-				printf("The door seems to be locked!\n");
-				return;
-			}
-			game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
-			printRoom(game);
-			return;
-		}
-		else
-		{
-			printf("I don't know how to open %s!\n", args[0]);
-			return;
-		}
+		printf("Ehh...is there even a door in that direction?\n");
+		return;
 	}
-	printf("Ehh...is there even a door in that direction?\n");
+	if(strcmp(args[0], game->zorc->rm->trans[direction]->name) != 0)
+	{
+		printf("I don't know how to open %s!\n", args[0]);
+		return;
+	}
+	if(game->zorc->rm->trans[direction]->isLocked)
+	{
+		printf("The door seems to be locked!\n");
+		return;
+	}
+
+	game->zorc->rm = game->zorc->rm->trans[direction]->nxt;
+	printRoom(game);
 }
 
 void commandUnlockDoor(void *p, char **args, int arg)
 {
 	struct game *game = (struct game *)p;
 	int direction = game->zorc->direction;
+	int hasUnlocked = 0;
 
 	if(arg == 0)
 	{
 		printf("Ehh...what door should I unlock exactly?\n");
 		return;
 	}
-
-	if(game->zorc->rm->trans[direction] != NULL)
-	{
-		if(strcmp(args[0], game->zorc->rm->trans[direction]->name) == 0)
-		{
-			if(game->zorc->rm->trans[direction]->isLocked)
-			{
-				for(int i = 0 ; i < game->zorc->keysize; i++)
-				{
-					if(&game->zorc->keys[i] != NULL)
-					{
-						if(game->zorc->keys[i].code == game->zorc->rm->trans[direction]->code)
-						{
-							printf("Door unlocked!\n");
-							return;
-						}
-					}
-				}	
-			} 
-			else
-			{
-				printf("This door doesn't seem to be locked!\n");
-				return;
-			}
-		}
-		else
-		{
-			printf("I don't know how to open %s!\n", args[0]);
-			return;
-		}
-	}
-	else
+	if(game->zorc->rm->trans[direction] == NULL)
 	{
 		printf("Ehh...is there even a door in that direction?\n");
 		return;
+	}
+	if(strcmp(args[0], game->zorc->rm->trans[direction]->name) != 0)
+	{
+		printf("I don't know how to open %s!\n", args[0]);
+		return;
+	}
+	if(!game->zorc->rm->trans[direction]->isLocked)
+	{
+		printf("This door doesn't seem to be locked!\n");
+		return;
+	}
+
+	for(int i = 0 ; i < game->zorc->keysize; i++)
+	{
+		if(&game->zorc->keys[i] != NULL)
+		{
+			if(game->zorc->keys[i].code == game->zorc->rm->trans[direction]->code)
+			{
+				hasUnlocked = 1;
+				printf("Door unlocked!\n");
+				return;
+			}
+		}
+	}
+	if(!hasUnlocked)
+	{
+		printf("I don't have the correct key to unlocked this door!\n");
 	}
 }
 

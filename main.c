@@ -18,9 +18,9 @@ int main(int argc, char *argv[])
 	struct game *g = initGame();
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
-	connectRooms(g->zorc->rm, north, initDoor("door",0,0,0), initRoom("hall", "bloody"), initDoor("door", 0,0,0));
+	connectRooms(g->zorc->rm, north, initDoor("door",0,0,0), initRoom("hall", "bloodied"), initDoor("door", 0,0,0));
 	printVersion();
-	promptYesNoQuestion("When will it be night by day?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
+	promptYesNoQuestion("Will it be night by day?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
 	printCommands(g);
 	printRoom(g);
