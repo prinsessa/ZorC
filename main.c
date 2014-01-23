@@ -51,6 +51,12 @@ void connectObjects(struct object *obja, struct object *objb)
 	errAbort("Unable to add a non static object to a static object.\n");
 }
 
+void addKeyToObject(struct object *object, struct key *key, int isAct)
+{
+	object->key = key;
+	object->isAct = isAct;
+}
+
 char * getDirection(int direction)
 {
 	switch(direction)

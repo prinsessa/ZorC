@@ -34,4 +34,6 @@ void connectRoom(struct room *,int, struct door *, struct room *);
 void connectRooms(struct room *,int, struct door *, struct room *, struct door *);
 
 struct door* initDoor(const char [32], int, int, int);
+
+void addObjectToRoom(struct object *, struct room *);
 #endif

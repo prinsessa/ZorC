@@ -26,6 +26,9 @@ struct object{
 	int isStatic;
 	struct object *obj;
 	// should be able to hold a key/item, ex: table>skeleton key
+	struct key *key;
+	// need activation in order to show obj/key
+	int isAct;
 };
 
 // exercise is healthy... exit is isRunning = 0;
@@ -33,6 +36,8 @@ extern int isRunning;
 
 struct object initObject(char [32], char [128], int);
 void connectObjects(struct object *, struct object *);
+void addKeyToObject(struct object *, struct key *, int);
+
 char * getDirection(int);
 
 //prints
