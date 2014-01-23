@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
 	connectRooms(g->zorc->rm, north, initDoor("door",0,0,0), initRoom("hall", "bloodied"), initDoor("door", 0,0,0));
-	struct object makke = initObject("Makk3", "Makk3 seems to be a very bad Makk3!", 0);
+	struct object makke = initObject("makke", "Makke seems to be a very bad Makke!", 0);
 	addObjectToRoom(&makke, g->zorc->rm);
 	printVersion();
 	promptYesNoQuestion("Will it be night by day?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");

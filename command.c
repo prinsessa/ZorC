@@ -248,8 +248,11 @@ void commandLookAt(void *p, char **args, int arg)
 
 	for(int i =0; i < game->zorc->rm->objsize; i++)
 	{
+		// args[0] == lowerCase, game->zorc...->name is not, compare will fail.
+		// fix by lowercase objs[i]->name on compare
 		if(strcmp(args[0], game->zorc->rm->objs[i]->name) == 0)
 		{
+			printf("i: %d\n", i);
 			printObjectUse(game->zorc->rm->objs[i]);
 			return;
 		}
