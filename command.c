@@ -228,7 +228,7 @@ void commandGoDirection(void *p, char **args, int arg)
 	free(over);
 }
 
-void commandLookAt(void *p, char args**, int arg)
+void commandLookAt(void *p, char **args, int arg)
 {
 	struct game *game = (struct game *)p;
 

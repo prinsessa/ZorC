@@ -25,7 +25,7 @@ struct room{
 	// door, ints enum direction
 	struct door *trans[4];
 	// dynamic array of objects
-	struct object *objs;
+	struct object *objs[4];
 	int objsize;
 };
 

@@ -57,3 +57,12 @@ struct door* initDoor(const char name[21], int id, int isLocked, int code)
 	door->id = id;
 	return door;
 }
+
+void addObjectToRoom(struct object *object, struct room *room)
+{
+	if(room->objsize <4)
+	{
+		room->objs[room->objsize] = object;
+		room->objsize++;
+	}
+}

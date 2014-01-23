@@ -33,10 +33,15 @@ void addToInventory(void *p, char **args, int arg)
 	{
 		if(&game->zorc->rm->objs[i] != NULL)
 		{
-			if(strcmp(args[0], game->zorc->rm->objs[i].name) == 0)
+			if(strcmp(args[0], game->zorc->rm->objs[i]->name) == 0)
 			{
+				if(game->zorc->rm->objs[i]->isStatic != 1)
+				{
+					printf("I'm unable to add  %s to my inventory!\n",game->zorc->rm->objs[i]->name);
+					return;
+				}
 				// realloc and add
-				printf("** TODO: Implementations ** %s has been added to my inventory.\n", game->zorc->rm->objs[i].name);
+				printf("** TODO: Implementations ** %s has been added to my inventory.\n", game->zorc->rm->objs[i]->name);
 				return;
 			}
 		}
