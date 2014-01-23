@@ -61,6 +61,7 @@ output\main.obj: \
 output\command.obj: \
 	command.c \
 	command.h \
+	cui.h \
 	main.h \
 	player.h \
 	room.h \
@@ -138,9 +139,13 @@ output\npc.obj: \
 output\cui.obj: \
 	cui.c \
 	cui.h \
-	util.h
+	main.h \
+	player.h \
+	room.h \
+	util.h \
+	zorc.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
-.SILENT:
-
 .EXCLUDEDFILES:
+
+.SILENT:

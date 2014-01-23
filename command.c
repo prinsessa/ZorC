@@ -9,6 +9,7 @@
 #include "command.h"
 #include "room.h"
 #include "util.h"
+#include "cui.h"
 
 void initCommands(struct game *game)
 {
