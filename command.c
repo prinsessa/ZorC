@@ -7,6 +7,7 @@
 #include "main.h"
 #include "player.h"
 #include "command.h"
+#include "object.h"
 #include "room.h"
 #include "util.h"
 #include "cui.h"

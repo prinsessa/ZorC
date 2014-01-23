@@ -5,6 +5,7 @@
 
 #include "zorc.h"
 #include "player.h"
+#include "object.h"
 #include "room.h"
 #include "cui.h"
 #include "main.h"

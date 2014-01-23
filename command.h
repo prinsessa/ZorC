@@ -1,6 +1,11 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+enum visible{
+	visible = 0,
+	hidden = 1
+};
+
 // command struct with fp callback
 struct command{
 	char name[21];

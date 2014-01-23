@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "command.h"
+#include "object.h"
 #include "room.h"
 #include "main.h"
 #include "zorc.h"
@@ -74,4 +75,20 @@ void setPlayerDirection(struct game *game, char **args, int arg)
 	{
 		printf("Since when is %s considered to be a direction?\n", args[0]);
 	}
+}
+
+char * getDirection(int direction)
+{
+	switch(direction)
+	{
+		case (north):
+			return NORTH;
+		case (south):
+			return SOUTH;
+		case (east):
+			return EAST;
+		case (west):
+			return WEST;
+	}
+	return NORTH;
 }

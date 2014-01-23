@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "zorc.h"
+#include "object.h"
 #include "room.h"
 #include "main.h"
 #include "command.h"
@@ -11,6 +12,7 @@
 #include "version.h"
 #include "util.h"
 #include "cui.h"
+
 int isRunning = 1;
 
 int main(int argc, char *argv[])
@@ -32,45 +34,4 @@ int main(int argc, char *argv[])
 	}
 	destroyGame(g);
     return 0;
-}
-
-struct object initObject(char name[32], char use [128], int isStatic)
-{
-	struct object object;
-	strcpy(object.name, name);
-	strcpy(object.use, use);
-	object.isStatic = isStatic;
-	return object;
-}
-
-void connectObjects(struct object *obja, struct object *objb)
-{
-	if(objb->isStatic == 1)
-	{
-		obja->obj = objb;
-		return;
-	}
-	errAbort("Unable to add a non static object to a static object.\n");
-}
-
-void addKeyToObject(struct object *object, struct key *key, int isAct)
-{
-	object->key = key;
-	object->isAct = isAct;
-}
-
-char * getDirection(int direction)
-{
-	switch(direction)
-	{
-		case (north):
-			return NORTH;
-		case (south):
-			return SOUTH;
-		case (east):
-			return EAST;
-		case (west):
-			return WEST;
-	}
-	return NORTH;
 }

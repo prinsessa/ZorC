@@ -37,7 +37,8 @@ ZorC.exe: \
 	output\room.obj \
 	output\util.obj \
 	output\version.obj \
-	output\zorc.obj
+	output\zorc.obj \
+	output\object.obj
 	$(LINK) $(LINKFLAGS) -out:"$@" $**
 
 # 
@@ -48,6 +49,7 @@ output\main.obj: \
 	command.h \
 	cui.h \
 	main.h \
+	object.h \
 	player.h \
 	room.h \
 	util.h \
@@ -63,6 +65,7 @@ output\command.obj: \
 	command.h \
 	cui.h \
 	main.h \
+	object.h \
 	player.h \
 	room.h \
 	util.h \
@@ -85,6 +88,7 @@ output\player.obj: \
 	player.c \
 	command.h \
 	main.h \
+	object.h \
 	player.h \
 	room.h \
 	zorc.h
@@ -140,10 +144,20 @@ output\cui.obj: \
 	cui.c \
 	cui.h \
 	main.h \
+	object.h \
 	player.h \
 	room.h \
 	util.h \
 	zorc.h
+	$(CC) $(CCFLAGS) "$!" -Fo"$@"
+
+# 
+# Build object.obj.
+# 
+output\object.obj: \
+	object.c \
+	command.h \
+	object.h
 	$(CC) $(CCFLAGS) "$!" -Fo"$@"
 
 .EXCLUDEDFILES:
