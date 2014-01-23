@@ -16,7 +16,7 @@ void initCommands(struct game *game)
 	game->cmds = malloc(sizeof(struct command)*size);
 	game->cmdsize = size;
 	game->cmds[0] = getCommand("help", visible, &printCommands);
-	game->cmds[1] = getCommand("look", visible, &printCommandDummy);
+	game->cmds[1] = getCommand("look", visible, &commandLookAt);
 	game->cmds[2] = getCommand("open", visible, &commandOpenDoor);
 	game->cmds[3] = getCommand("show", visible, &printCommandDummy);
 	game->cmds[4] = getCommand("exit", visible, &exitMe);
@@ -236,5 +236,20 @@ void commandLookAt(void *p, char **args, int arg)
 	{
 		printf("Ehh..I don't know what to look at!");
 		return;
+	}
+
+	if(game->zorc->rm->objs == 0)
+	{
+		printf("There's nothing to look at..\n");
+		return;
+	}
+
+	for(int i =0; i < game->zorc->rm->objsize; i++)
+	{
+		if(strcmp(args[0], game->zorc->rm->objs[i]->name) == 0)
+		{
+			printObjectUse(game->zorc->rm->objs[i]);
+			return;
+		}
 	}
 }

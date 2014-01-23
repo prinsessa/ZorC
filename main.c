@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 	g->zorc = initPlayer("Tessa");
 	g->zorc->rm = initRoom("spawnroom", "dark");
 	connectRooms(g->zorc->rm, north, initDoor("door",0,0,0), initRoom("hall", "bloodied"), initDoor("door", 0,0,0));
+	struct object makke = initObject("Makk3", "Makk3 seems to be a very bad Makk3!", 0);
+	addObjectToRoom(&makke, g->zorc->rm);
 	printVersion();
 	promptYesNoQuestion("Will it be night by day?", "yes", "Hah! A spark of intelligence!", "Hah! You're only good for wielding a sword!");
 	initCommands(g);
@@ -83,6 +85,10 @@ void printRoom(const struct game *g)
 {
 	struct room *rm = g->zorc->rm;
 	printf("I'm in a %s %s.\n", rm->env,rm->name);
+	for(int i = 0; i < g->zorc->rm->objsize; i++)
+	{
+		printObject(g->zorc->rm->objs[i]);
+	}
 	printDoors(rm);
 }
 
@@ -95,6 +101,16 @@ void printDoors(const struct room *room)
 			printf("There's a %s to the %s.\n", room->trans[i]->name, getDirection(i));
 		}
 	}
+}
+
+void printObject(const struct object *object)
+{
+	printf("There is a %s in the room.\n", object->name);
+}
+
+void printObjectUse(const struct object *object)
+{
+	printf("%s\n", object->use);
 }
 
 void printMe(void *p)

@@ -44,5 +44,7 @@ char * getDirection(int);
 void printZorc(const struct game *);
 void printRoom(const struct game *);
 void printDoors(const struct room *);
+void printObject(const struct object *);
+void printObjectUse(const struct object *);
 void printMe(void *);
 #endif
